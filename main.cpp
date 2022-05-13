@@ -28,7 +28,7 @@ enum state {NEXT_PLAYER, WINNER_DECIDED, MAP_FULL};
 
 struct GameLogic
 {
-    vector<vector<CheckBox*>> gameMap;
+    vector<vector<CheckBox*>>& gameMap;
     function<void(state status)> reportData;
 
     state gameState;
@@ -44,15 +44,34 @@ struct GameLogic
         {
             nextPlayer();
         }
-        else
-        {
-            reportData(gameState);
-        }
+        reportData(gameState);
+
     }
 
     void getGameState()
     {
-        gameState = WINNER_DECIDED;
+        for(int i = 0; i < mapSize-5; i++)
+        {
+            for(int j = 0; j < mapSize-5; j++)
+            {
+                if(equal5(gameMap[i][j], gameMap[i][j+1], gameMap[i][j+2], gameMap[i][j+3], gameMap[i][j+4]))
+                {
+                    cout << "WINNER";
+                    gameState = WINNER_DECIDED;
+                    return;
+                }
+            }
+        }
+        gameState = NEXT_PLAYER;
+    }
+
+    bool equal5(CheckBox * a, CheckBox * b, CheckBox * c, CheckBox * d, CheckBox * e)
+    {
+        if(a->isChecked() && b->isChecked() && c->isChecked() && d->isChecked() && e->isChecked())
+        {
+            return (a->getPlayerValue() == b->getPlayerValue() == c->getPlayerValue() == d->getPlayerValue() == e->getPlayerValue());
+        }
+        return false;
     }
 
     void nextPlayer()
@@ -81,7 +100,6 @@ struct MainWindow : public App {
     int yStart = 90;
 
     MainWindow() {
-        mainGameLogic = new GameLogic(gameZone, [this](state status){this->getGameData(status);});
 
         for(int i = 0; i < mapSize; i++)
         {
@@ -94,14 +112,17 @@ struct MainWindow : public App {
             gameZone.push_back(temp);
         }
 
+        mainGameLogic = new GameLogic(gameZone, [this](state status){this->getGameData(status);});
 
         lbl_title = new Label(this, 10, 15, 0, 0, to_string(mapSize) + "x" + to_string(mapSize) + " amoba", false, false);
-        lbl_current_player = new Label(this, 10, 35, 0, 0, "Jelenlegi jatekos: 1", false, false);
+        lbl_current_player = new Label(this, 10, 35, 0, 0, "Jelenlegi jatekos: 1 [X]", false, false);
     }
 
     void getGameData(state status)
     {
-        cout << status;
+        string sign;
+        currentPlayer == 2 ? sign = "[O]" : sign = "[X]";
+        lbl_current_player->setText("Jelenlegi jatekos: " + to_string(currentPlayer) + " " + sign);
     }
 };
 

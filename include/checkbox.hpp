@@ -7,7 +7,7 @@
 class CheckBox : public Widget {
 protected:
     bool checked = false;
-    int checkValue = rand()%2+1;
+    int checkValue = 0;
     std::function<void(CheckBox * cbox)> checkChanged;
 public:
     CheckBox(App * a, int x, int y, int sx, int sy, std::function<void(CheckBox * cbox)> _fv);

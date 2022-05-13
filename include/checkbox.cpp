@@ -24,7 +24,7 @@ void CheckBox::draw()
         {
             int xkozep = _x+(_size_x/2);
             int ykozep = _y+(_size_y/2);
-            int r = (_size_x/2) - 10;
+            int r = (_size_x/2) - 8;
             for(int i = -r; i <= r; i++)
             {
                 for(int j = -r; j <= r; j++)
@@ -39,7 +39,7 @@ void CheckBox::draw()
 
 void CheckBox::handle(event ev)
 {
-    if (ev.type == ev_key && (ev.keycode == key_enter || ev.keycode == ' ' && !checked)) {
+    if ((ev.type == ev_key && (ev.keycode == key_enter || ev.keycode == ' ') && !checked)) {
         checkChanged(this);
     }
     if (ev.type == ev_mouse && isSelected(ev.pos_x, ev.pos_y) && ev.button==btn_left && !checked) {
