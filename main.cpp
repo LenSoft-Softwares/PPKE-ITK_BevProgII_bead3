@@ -18,7 +18,7 @@ using namespace std;
 using namespace genv;
 
 //Only even number
-const int mapSize = 16;
+const int mapSize = 10;
 
 const int XX = 160+mapSize*28;
 const int YY = mapSize*28+120;
@@ -44,32 +44,57 @@ struct GameLogic
         {
             nextPlayer();
         }
+        else if(gameState == MAP_FULL)
+        {
+
+        }
         reportData(gameState);
 
     }
 
     void getGameState()
     {
-        for(int i = 0; i < mapSize-5; i++)
+        bool allChecked = true;
+        for(int i = 0; i < mapSize-4; i++)
         {
-            for(int j = 0; j < mapSize-5; j++)
+            for(int j = 0; j < mapSize-4; j++)
             {
-                if(equal5(gameMap[i][j], gameMap[i][j+1], gameMap[i][j+2], gameMap[i][j+3], gameMap[i][j+4]))
+                if(equal5(vector<CheckBox*>{gameMap[i][j], gameMap[i][j+1], gameMap[i][j+2], gameMap[i][j+3], gameMap[i][j+4]}) ||
+                   equal5(vector<CheckBox*>{gameMap[i][j], gameMap[i+1][j], gameMap[i+2][j], gameMap[i+3][j], gameMap[i+4][j]}) ||
+                   equal5(vector<CheckBox*>{gameMap[i][j], gameMap[i+1][j+1], gameMap[i+2][j+2], gameMap[i+3][j+3], gameMap[i+4][j+4]}) ||
+                   equal5(vector<CheckBox*>{gameMap[mapSize-1-i][j], gameMap[mapSize-2-i][j+1], gameMap[mapSize-3-i][j+2], gameMap[mapSize-4-i][j+3], gameMap[mapSize-5-i][j+4]}))
                 {
-                    cout << "WINNER";
                     gameState = WINNER_DECIDED;
                     return;
                 }
+                else
+                {
+                    if(!gameMap[i][j]->isChecked() || !gameMap[i+1][j+1]->isChecked() || !gameMap[i+2][j+2]->isChecked() || !gameMap[i+3][j+3]->isChecked() || !gameMap[i+4][j+4]->isChecked()) allChecked = false;
+                }
             }
         }
-        gameState = NEXT_PLAYER;
+
+        allChecked ? gameState = MAP_FULL : gameState = NEXT_PLAYER;
     }
 
-    bool equal5(CheckBox * a, CheckBox * b, CheckBox * c, CheckBox * d, CheckBox * e)
+    bool equal5(vector<CheckBox*> boxes)
     {
-        if(a->isChecked() && b->isChecked() && c->isChecked() && d->isChecked() && e->isChecked())
+        if(boxes[0]->isChecked() && boxes[1]->isChecked() && boxes[2]->isChecked() && boxes[3]->isChecked() && boxes[4]->isChecked())
         {
-            return (a->getPlayerValue() == b->getPlayerValue() == c->getPlayerValue() == d->getPlayerValue() == e->getPlayerValue());
+            int av = boxes[0]->getPlayerValue();
+            int bv = boxes[1]->getPlayerValue();
+            int cv = boxes[2]->getPlayerValue();
+            int dv = boxes[3]->getPlayerValue();
+            int ev = boxes[4]->getPlayerValue();
+
+            if((av == bv && av == cv && av == dv && av == ev) && (bv == cv && bv == dv && bv == ev) && (cv == dv && cv == ev) && (dv == ev))
+            {
+                boxes[0]->setHighlight(true);
+                boxes[1]->setHighlight(true);
+                boxes[2]->setHighlight(true);
+                boxes[3]->setHighlight(true);
+                boxes[4]->setHighlight(true);
+            }
         }
         return false;
     }
@@ -123,6 +148,7 @@ struct MainWindow : public App {
         string sign;
         currentPlayer == 2 ? sign = "[O]" : sign = "[X]";
         lbl_current_player->setText("Jelenlegi jatekos: " + to_string(currentPlayer) + " " + sign);
+        if(status == MAP_FULL) lbl_current_player->setText("Betelt a jatekter!");
     }
 };
 

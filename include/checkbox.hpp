@@ -9,6 +9,7 @@ protected:
     bool checked = false;
     int checkValue = 0;
     std::function<void(CheckBox * cbox)> checkChanged;
+    bool colorHightlight = false;
 public:
     CheckBox(App * a, int x, int y, int sx, int sy, std::function<void(CheckBox * cbox)> _fv);
     virtual void draw() ;
@@ -16,6 +17,7 @@ public:
     virtual bool isChecked();
     int getPlayerValue(){return checkValue;}
     void setPlayerValue(int val){checkValue = val;}
+    void setHighlight(bool val){colorHightlight = val;}
     void setCheck(){if(!checked) checked = true;}
 };
 
