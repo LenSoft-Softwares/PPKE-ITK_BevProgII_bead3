@@ -18,7 +18,7 @@ using namespace std;
 using namespace genv;
 
 //Only even number
-const int mapSize = 10;
+const int mapSize = 16;
 
 const int XX = 160+mapSize*28;
 const int YY = mapSize*28+120;
@@ -38,15 +38,11 @@ struct GameLogic
     void checkResults(CheckBox* cbox)
     {
         cbox->setPlayerValue(currentPlayer);
-        cbox->setCheck();
+        cbox->setCheck(true);
         getGameState();
         if(gameState == NEXT_PLAYER)
         {
             nextPlayer();
-        }
-        else if(gameState == MAP_FULL)
-        {
-
         }
         reportData(gameState);
 
@@ -94,6 +90,7 @@ struct GameLogic
                 boxes[2]->setHighlight(true);
                 boxes[3]->setHighlight(true);
                 boxes[4]->setHighlight(true);
+                return true;
             }
         }
         return false;
@@ -105,7 +102,7 @@ struct GameLogic
         {
             currentPlayer = 2;
         }
-        else
+        else if(currentPlayer == 2)
         {
             currentPlayer = 1;
         }
@@ -120,12 +117,12 @@ struct MainWindow : public App {
 
     Label * lbl_title;
     Label * lbl_current_player;
+    Button * btn_reset;
 
     int xStart = (XX/2)-((mapSize/2))*28;
     int yStart = 90;
 
     MainWindow() {
-
         for(int i = 0; i < mapSize; i++)
         {
             vector<CheckBox*> temp;
@@ -139,16 +136,47 @@ struct MainWindow : public App {
 
         mainGameLogic = new GameLogic(gameZone, [this](state status){this->getGameData(status);});
 
-        lbl_title = new Label(this, 10, 15, 0, 0, to_string(mapSize) + "x" + to_string(mapSize) + " amoba", false, false);
-        lbl_current_player = new Label(this, 10, 35, 0, 0, "Jelenlegi jatekos: 1 [X]", false, false);
+        lbl_title = new Label(this, 10, 15, 0, 0, to_string(mapSize) + "x" + to_string(mapSize) + " Tic-tac-toe", false, false);
+        lbl_current_player = new Label(this, XX/2-115, 60, 230, 20, "Current player: 1 [X]", true, false);
+        btn_reset = new Button(this, XX/2-40, 20, 80, 30, [this](){this->resetGame();}, "Replay");
+        btn_reset->setVisibility(false);
+    }
+
+    void resetGame()
+    {
+        for(int i = 0; i < gameZone.size(); i++)
+        {
+            for(int j = 0; j < gameZone[i].size(); j++)
+            {
+                gameZone[i][j]->setPlayerValue(0);
+                gameZone[i][j]->setHighlight(false);
+                gameZone[i][j]->setCheck(false);
+            }
+        }
+        btn_reset->setVisibility(false);
+        currentPlayer = 1;
+        lbl_current_player->setText("Current player: 1 [X]");
     }
 
     void getGameData(state status)
     {
         string sign;
         currentPlayer == 2 ? sign = "[O]" : sign = "[X]";
-        lbl_current_player->setText("Jelenlegi jatekos: " + to_string(currentPlayer) + " " + sign);
-        if(status == MAP_FULL) lbl_current_player->setText("Betelt a jatekter!");
+        if(status == NEXT_PLAYER)
+        {
+             lbl_current_player->setText("Current player: " + to_string(currentPlayer) + " " + sign);
+        }
+        else if(status == MAP_FULL)
+        {
+            lbl_current_player->setText("TIE!");
+            btn_reset->setVisibility(true);
+        }
+        else if(status == WINNER_DECIDED)
+        {
+            lbl_current_player->setText("PLAYER " + to_string(currentPlayer) +  " " + sign + " WON THE GAME!");
+            currentPlayer = 0;
+            btn_reset->setVisibility(true);
+        }
     }
 };
 

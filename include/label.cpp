@@ -22,7 +22,15 @@ void Label::draw()
     }
     else
     {
-        gout << move_to(_x+5, _y+((_size_y/2)-(gout.cascent()+gout.cdescent())/2)) << color(255,255,255) << text(itemText);
+        if(wbox)
+        {
+            gout << move_to(_x+(_size_x/2)-gout.twidth(itemText)/2, _y+((_size_y/2)-(gout.cascent()+gout.cdescent())/2)) << color(255,255,255) << text(itemText);
+        }
+        else
+        {
+            gout << move_to(_x+5, _y+((_size_y/2)-(gout.cascent()+gout.cdescent())/2)) << color(255,255,255) << text(itemText);
+        }
+
     }
 
 }

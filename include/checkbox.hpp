@@ -18,7 +18,7 @@ public:
     int getPlayerValue(){return checkValue;}
     void setPlayerValue(int val){checkValue = val;}
     void setHighlight(bool val){colorHightlight = val;}
-    void setCheck(){if(!checked) checked = true;}
+    void setCheck(bool val){checked = val;}
 };
 
 #endif // CHECKBOX_HPP_INCLUDED

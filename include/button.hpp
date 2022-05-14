@@ -10,6 +10,7 @@ class Button : public Widget
 protected:
     std::string itemText;
     bool onHover = false;
+    bool visible = true;
     std::function<void()> onPressed;
 public:
     Button(App * a, int x, int y, int sx, int sy, std::function<void()> _f, std::string _text = "") : Widget(a, x, y, sx, sy)
@@ -20,6 +21,7 @@ public:
     }
     virtual void draw();
     virtual void handle(genv::event ev);
+    void setVisibility(bool val) {visible = val;}
     std::string getItemtext(){return itemText;};
 };
 
