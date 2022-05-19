@@ -23,9 +23,9 @@ public:
         if(sy<30) _size_y = 30;
         draw();
     }
-    virtual void draw();
+    virtual void draw() const;
     virtual void handle(genv::event ev);
-    int getValue(){return value;}
+    int getValue() const {return value;}
 };
 
 #endif // NUMERICUPDOWN_HPP_INCLUDED

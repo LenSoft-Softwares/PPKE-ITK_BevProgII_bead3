@@ -7,7 +7,7 @@ using namespace genv;
 
 CheckBox::CheckBox(App * a, int x, int y, int sx, int sy, std::function<void(CheckBox * cbox)> _fv) : Widget(a, x,y,sx,sy){checkChanged = _fv;}
 
-void CheckBox::draw()
+void CheckBox::draw() const
 {
     gout << move_to(_x, _y) << color(255,255,255) << box(_size_x, _size_y);
     colorHightlight ? gout << color(10,200,50) : gout << color(0,0,0);
@@ -49,7 +49,7 @@ void CheckBox::handle(event ev)
     }
 }
 
-bool CheckBox::isChecked()
+bool CheckBox::isChecked() const
 {
     return checked;
 }

@@ -5,7 +5,7 @@
 
 using namespace genv;
 
-void Button::draw()
+void Button::draw() const
 {
     if(visible)
     {

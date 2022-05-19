@@ -12,8 +12,8 @@ protected:
 public:
     Label(App * a, int x, int y, int sx, int sy, std::string _text, bool _box, bool _align);
     virtual void setText(std::string text);
-    virtual std::string getText();
-    virtual void draw();
+    virtual std::string getText() const {return itemText;};
+    virtual void draw() const;
     virtual void handle(genv::event ev){}
 };
 

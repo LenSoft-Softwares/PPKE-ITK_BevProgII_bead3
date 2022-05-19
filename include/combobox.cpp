@@ -4,7 +4,7 @@
 
 using namespace genv;
 
-void ComboBox::draw()
+void ComboBox::draw() const
 {
     gout << color(120,120,120) << move_to(_x, _y) << box(_size_x, _size_y);
     gout << color(255,255,255) << move_to(_x+2, _y+2) << box(_size_x-4, _size_y-4);

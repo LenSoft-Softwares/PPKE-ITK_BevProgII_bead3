@@ -9,7 +9,7 @@ Widget::Widget(App * a, int x, int y, int sx, int sy) : _app(a), _x(x), _y(y), _
     _app->add_widget(this);
 }
 
-bool Widget::isSelected(int mouse_x, int mouse_y)
+bool Widget::isSelected(int mouse_x, int mouse_y) const
 {
     return mouse_x>_x && mouse_x<_x+_size_x && mouse_y>_y && mouse_y<_y+_size_y;
 }

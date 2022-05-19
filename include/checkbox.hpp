@@ -12,10 +12,10 @@ protected:
     bool colorHightlight = false;
 public:
     CheckBox(App * a, int x, int y, int sx, int sy, std::function<void(CheckBox * cbox)> _fv);
-    virtual void draw() ;
+    virtual void draw() const;
     virtual void handle(genv::event ev);
-    virtual bool isChecked();
-    int getPlayerValue(){return checkValue;}
+    virtual bool isChecked() const;
+    int getPlayerValue() const {return checkValue;}
     void setPlayerValue(int val){checkValue = val;}
     void setHighlight(bool val){colorHightlight = val;}
     void setCheck(bool val){checked = val;}

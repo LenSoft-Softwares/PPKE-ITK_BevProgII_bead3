@@ -19,10 +19,10 @@ public:
         onPressed = _f;
         draw();
     }
-    virtual void draw();
+    virtual void draw() const;
     virtual void handle(genv::event ev);
     void setVisibility(bool val) {visible = val;}
-    std::string getItemtext(){return itemText;};
+    std::string getItemtext() const {return itemText;};
 };
 
 #endif // BUTTON_HPP_INCLUDED

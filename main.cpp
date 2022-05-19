@@ -144,9 +144,9 @@ struct MainWindow : public App {
 
     void resetGame()
     {
-        for(int i = 0; i < gameZone.size(); i++)
+        for(int i = 0; i < (int)gameZone.size(); i++)
         {
-            for(int j = 0; j < gameZone[i].size(); j++)
+            for(int j = 0; j < (int)gameZone[i].size(); j++)
             {
                 gameZone[i][j]->setPlayerValue(0);
                 gameZone[i][j]->setHighlight(false);

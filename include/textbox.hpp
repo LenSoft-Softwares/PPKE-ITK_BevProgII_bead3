@@ -13,9 +13,9 @@ public:
         itemText = _text;
         draw();
     }
-    std::string getText(){return itemText;}
+    std::string getText() const {return itemText;}
     void setText(std::string _text) {itemText = _text;}
-    virtual void draw();
+    virtual void draw() const;
     virtual void handle(genv::event ev);
 };
 

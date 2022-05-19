@@ -63,12 +63,12 @@ public:
         return _max + 25;
     }
 
-    virtual void draw();
+    virtual void draw() const;
     virtual void handle(genv::event ev);
     virtual void removeItem(int i);
     void insertItem(std::string item){items.push_back(item);setProperties();}
     void setItems(std::vector<std::string> _items){items = _items; setProperties();}
-    std::string getSelectedItem(){return items[selectedid];}
-    int getSelectedIndex(){return selectedid;}
+    std::string getSelectedItem() const {return items[selectedid];}
+    int getSelectedIndex() const {return selectedid;}
 };
 #endif // COMBOBOX_HPP_INCLUDED

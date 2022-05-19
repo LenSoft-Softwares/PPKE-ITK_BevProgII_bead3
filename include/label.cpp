@@ -10,7 +10,7 @@ Label::Label(App * a, int x, int y, int sx, int sy, std::string _text, bool _box
     draw();
 }
 
-void Label::draw()
+void Label::draw() const
 {
     if(wbox)
     {
@@ -39,9 +39,4 @@ void Label::setText(std::string text)
 {
     itemText = text;
     draw();
-}
-
-std::string Label::getText()
-{
-    return itemText;
 }
