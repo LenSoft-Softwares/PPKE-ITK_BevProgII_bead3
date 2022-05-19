@@ -173,7 +173,7 @@ struct MainWindow : public App {
         }
         else if(status == WINNER_DECIDED)
         {
-            lbl_current_player->setText("PLAYER " + to_string(currentPlayer) +  " " + sign + " WON THE GAME!");
+            if(currentPlayer != 0) lbl_current_player->setText("PLAYER " + to_string(currentPlayer) +  " " + sign + " WON THE GAME!");
             currentPlayer = 0;
             btn_reset->setVisibility(true);
         }
